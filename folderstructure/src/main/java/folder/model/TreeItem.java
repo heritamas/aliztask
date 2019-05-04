@@ -227,7 +227,7 @@ public class TreeItem implements Cloneable {
 		}
 		
 		for (TreeItem ti : getChildren()) {
-			paths.addAll(ti.getPaths(actualPath, showAttrs));
+			paths.addAll(ti.getWritablePaths(actualPath, showAttrs));
 		}
 		
 		return paths;
