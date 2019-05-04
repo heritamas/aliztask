@@ -1,0 +1,10 @@
+/
+/var
+/var/readable
+/var/readable/writable1
+/var/readable/writable2
+/var/readable/writable2/readable21
+/var/readable/writable2/readable22
+/var/readable/writable3
+/var/notreadable/writable4
+/var/notreadable/readible/writable5
