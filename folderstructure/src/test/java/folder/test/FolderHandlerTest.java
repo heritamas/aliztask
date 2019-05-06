@@ -18,8 +18,10 @@ public class FolderHandlerTest {
 	
 	static List<String> readables;
 	static List<String> writables;
+	
+	FolderHandler handler;
 
-	TreeItem root = new TreeItem("");
+	//TreeItem root = new TreeItem("");
 
 
 	@BeforeClass
@@ -34,31 +36,33 @@ public class FolderHandlerTest {
 
 	@Before
 	public void setUp() throws Exception {
-		FolderHandler.buildTreeStructureFromList(root, readables, TreeItem::setReadable, true);
-		FolderHandler.buildTreeStructureFromList(root, writables, TreeItem::setWritable, true);
+		handler = new FolderHandler("");
+		
+		handler.buildTreeStructureFromList(readables, TreeItem::setReadable, true);
+		handler.buildTreeStructureFromList(writables, TreeItem::setWritable, true);
 	}
 
 	@After
 	public void tearDown() throws Exception {
 	}
 
-	@Test
+	//@Test
 	public void testCalculateLeastReadableAttribute() {
-		root.calculateLeastReadableAttribute(true);
+		handler.getTree().calculateLeastReadableAttribute(true);
 		
-		System.out.format("leastreadables: %s%n", root);
+		System.out.format("leastreadables: %s%n", handler.getTree());
 	}
 	
 	//@Test
 	public void testClone() throws CloneNotSupportedException {
-		TreeItem cloned = root.clone();
+		TreeItem cloned = handler.getTree().clone();
 		
 		System.out.format("cloned: %s%n", cloned);
 	}
 	
 	@Test
 	public void testGetWritablesSimple() throws CloneNotSupportedException {
-		TreeItem result = FolderHandler.getWritablesSimple(root);
+		TreeItem result = handler.getWritablesSimple();
 
 		System.out.format("result tree (simple): %s%n", result);
 		System.out.format("result (simple): %s%n", result.getWritablePaths(null, true));
@@ -66,7 +70,7 @@ public class FolderHandlerTest {
 
 	//@Test
 	public void testGetWritablesComplex() throws CloneNotSupportedException {
-		TreeItem result = FolderHandler.getWritablesComplex(root);
+		TreeItem result = handler.getWritablesComplex();
 
 		System.out.format("result tree (complex): %s%n", result);
 		System.out.format("result (complex): %s%n", result.getWritablePaths(null, true));
