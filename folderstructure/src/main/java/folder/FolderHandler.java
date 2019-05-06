@@ -46,9 +46,8 @@ public class FolderHandler
 	}
 	
 	/**
-	 * Creates a TreeItem, from the TreeItem given as parameters, in which all the writable, 
-	 * on at least readable path residing folders are contained 
-	 * @param structure - input tree to be transformed
+	 * Creates a TreeItem, in which all the writable, on at least readable path residing folders are contained
+	 * This solution is not recommended - the algorithm is too complex
 	 * @return - transformed tree (nodes possibly removed)
 	 * @throws CloneNotSupportedException 
 	 */
@@ -62,9 +61,7 @@ public class FolderHandler
 	}
 
 	/**
-	 * Creates a TreeItem, from the TreeItem given as parameters, in which all the writable, 
-	 * on at least readable path residing folders are contained 
-	 * @param structure - input tree to be transformed
+	 * Creates a TreeItem, in which all the writable, on at least readable path residing folders are contained 
 	 * @return - transformed tree (nodes possibly removed)
 	 * @throws CloneNotSupportedException 
 	 */

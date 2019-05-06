@@ -16,7 +16,7 @@ import folder.model.TreeItem;
 
 public class App {
 	
-	public static void main(String[] args) throws ParseException {
+	public static void main(String[] args) {
 		
 		
 		Options options = new Options();
@@ -24,6 +24,7 @@ public class App {
 		options.addOption(
 				Option.builder("r")
 				.longOpt("readables")
+				.required()
 				.hasArg()
 				.argName("name")
 				.desc("File name for readable folders")
@@ -33,6 +34,7 @@ public class App {
 		options.addOption(
 				Option.builder("w")
 				.longOpt("writables")
+				.required()
 				.hasArg()
 				.argName("name")
 				.desc("File name for writable folders")
@@ -47,26 +49,24 @@ public class App {
 		);
 		
 		CommandLineParser parser = new DefaultParser();
-		CommandLine cmd = parser.parse( options, args);
+		HelpFormatter formatter = new HelpFormatter();
+		String cmdLineSyntax = "folderstructure -r <file name> -w <file name>";
 		
-		FolderHandler handler = new FolderHandler("");
-
 		try  {
+			CommandLine cmd = parser.parse( options, args);
+			
 			if (cmd.hasOption("h")) {
-				HelpFormatter formatter = new HelpFormatter();
-				formatter.printHelp("folderstructure -r <file name> -w <filename>", options);
+				formatter.printHelp(String.format("%s%n", cmdLineSyntax), options);
 				return;
 			}
 			
-			if (cmd.hasOption("r") && cmd.getOptionValue("r") != null) {
-				List<String> readables = Helper.readStringListFromPath(Paths.get(cmd.getOptionValue("r")));
-				handler.buildTreeStructureFromList(readables, TreeItem::setReadable, true);
-			}
+			FolderHandler handler = new FolderHandler("");
+
+			List<String> readables = Helper.readStringListFromPath(Paths.get(cmd.getOptionValue("r")));
+			handler.buildTreeStructureFromList(readables, TreeItem::setReadable, true);
 			
-			if (cmd.hasOption("w") && cmd.getOptionValue("w") != null) {
-				List<String> writables = Helper.readStringListFromPath(Paths.get(cmd.getOptionValue("w")));
-				handler.buildTreeStructureFromList(writables, TreeItem::setWritable, true);
-			}
+			List<String> writables = Helper.readStringListFromPath(Paths.get(cmd.getOptionValue("w")));
+			handler.buildTreeStructureFromList(writables, TreeItem::setWritable, true);
 			
 			TreeItem result = handler.getWritablesSimple();
 			System.out.format("writable folders: %s%n", result.getWritablePaths(null, false));
@@ -76,6 +76,8 @@ public class App {
 		} catch (CloneNotSupportedException e) {
 			// should not happen
 			e.printStackTrace();
+		} catch (ParseException e) {
+			formatter.printHelp(String.format("%s%n%s", e.getMessage(), cmdLineSyntax), options);
 		}
 		
 	}
