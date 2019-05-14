@@ -1,16 +1,10 @@
 package folder;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.BiFunction;
-import java.util.stream.Collectors;
-
 import folder.model.TreeItem;
 
 public class FolderHandler 
@@ -29,8 +23,13 @@ public class FolderHandler
 	public TreeItem addFolder(String folder, BiFunction<TreeItem, Boolean, Void> setter, boolean arg) {
 		LinkedList<String> dirs = new LinkedList<>(Arrays.asList(folder.split("/")));
 		
-		root.buildTree(dirs, setter, arg);
+		// every dir has a root component, except root ("/")
+		if (!folder.equals("/")) {
+			dirs.poll();
+		}
 		
+		root.buildTree(dirs, setter, arg);
+
 		return root;
 	}
 

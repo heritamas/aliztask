@@ -107,16 +107,12 @@ public class TreeItem implements Cloneable {
 		
 		// leaf to be inserted
 		String nextDir = leafs.poll();
-		if (name.equals(nextDir)) {
-			// we already have it, descend with the rest of leafs
-			return buildTree(leafs, setter, arg);
-		} else {
-			// get matching tree item
-			TreeItem child = getChild(nextDir);
-			
-			// find in children, and descend in tree with the rest of leafs
-			return child.buildTree(leafs, setter, arg);
-		}
+		
+		// get matching tree item
+		TreeItem child = getChild(nextDir);
+		
+		// find in children, and descend in tree with the rest of leafs
+		return child.buildTree(leafs, setter, arg);
 	}
 
 	/**

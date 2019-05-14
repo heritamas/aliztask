@@ -47,6 +47,11 @@ public class FolderHandlerTest {
 	}
 
 	//@Test
+	public void testBuildTree() {
+		System.out.format("tree: %s%n", handler.getTree());
+	}
+
+	//@Test
 	public void testCalculateLeastReadableAttribute() {
 		handler.getTree().calculateLeastReadableAttribute(true);
 		
